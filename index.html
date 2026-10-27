@@ -1,0 +1,347 @@
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+<meta charset="utf-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">  
+<title> OWNER _MAMUN - VIP PREDICTION </title>  
+<style>  
+*{user-select:none;-webkit-tap-highlight-color:transparent;box-sizing:border-box;margin:0;padding:0}  
+:root{--gold:#f5b81b;--win-green:#00f5a0;--loss-red:#ff4d6d;--card-border:rgba(0,245,160,.7);--water-blue:#00b4d8}  
+html,body{width:100%;height:100%;overflow:hidden;font-family:Inter,'Segoe UI',system-ui,sans-serif;background:#000911}  
+.game-frame{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1}  
+.drag-widget{position:fixed;z-index:2147483640;background:rgba(10,15,28,.35);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);border-radius:18px;border:1.5px solid var(--card-border);box-shadow:0 10px 30px rgba(0,0,0,.7),inset 0 0 12px rgba(0,245,160,.15);touch-action:none;display:flex;flex-direction:column;align-items:center}  
+#bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;border-radius:18px;pointer-events:none}  
+.video-overlay{position:absolute;inset:0;background:rgba(0,0,0,.15);border-radius:18px;z-index:1;pointer-events:none}  
+#main-panel{top:70px;right:14px;width:180px;min-height:250px;padding:10px 7px}  
+#main-panel.minimized{width:46px!important;height:46px!important;min-height:unset!important;padding:0!important;border-radius:50%!important;cursor:pointer;background:rgba(0,0,0,.8)!important;border:2px solid var(--card-border)!important}  
+#main-panel.minimized>*:not(#mini-icon){display:none!important}  
+#main-panel.minimized #mini-icon{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;border-radius:50%!important}  
+#mini-icon{display:none}  
+.screen{position:relative;z-index:2;width:100%;display:none!important}  
+.screen.active{display:block!important}  
+.widget-header{text-align:center;margin-bottom:5px;width:100%;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.15);padding:5px;border-radius:12px}  
+.brand-logo{width:40px;height:40px;border-radius:50%;border:2px solid var(--water-blue);object-fit:cover;margin-bottom:2px;box-shadow:0 0 8px var(--water-blue)}  
+.brand-name{font-size:9.5px;font-weight:900;color:#00f5a0;text-align:center;text-shadow:0 0 8px rgba(0,245,160,.8);margin:1px 0}  
+.sub{font-size:7px;color:#fff;font-weight:800}  
+.premium-pass-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:8px 6px;margin:5px 0}  
+.glass-input{width:100%;padding:7px;background:rgba(0,0,0,.4)!important;border:1px solid rgba(0,245,160,.5);border-radius:25px;color:#fff!important;font-size:10.5px;font-weight:800;text-align:center;letter-spacing:1.5px;display:block;outline:none}  
+.glass-input:focus{border-color:var(--win-green);box-shadow:0 0 10px var(--win-green)}  
+button{font-family:inherit}  
+.btn-gold{width:100%;background:rgba(0,180,216,.25);border:1px solid rgba(0,245,160,.6);padding:7px 0;border-radius:25px;color:#fff;font-weight:900;font-size:9.5px;cursor:pointer;margin:5px 0 3px}  
+.btn-gold:active,.btn-outline:active,.tiny-btn:active{transform:scale(.96)}  
+.btn-get-key-link{width:100%;background:rgba(245,184,27,.12);border:1px solid rgba(245,184,27,.6);border-radius:25px;padding:5px 0;color:var(--gold);font-size:8.5px;font-weight:800;cursor:pointer;display:block;text-align:center;text-decoration:none;margin-top:3px}  
+.btn-outline{width:92%;background:rgba(255,255,255,.08);border:1px solid rgba(245,184,27,.6);border-radius:40px;padding:7px 0;color:var(--gold);font-size:9.5px;font-weight:bold;margin:5px auto;display:block;cursor:pointer}  
+.prediction-big{font-size:24px;font-weight:900;text-align:center;margin:3px 0;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.15);border-radius:10px;letter-spacing:1.5px;padding:4px}  
+.target-numbers-row{display:flex;justify-content:center;align-items:center;gap:10px;margin:3px 0 5px;min-height:28px}  
+.ball-icon-img{width:26px;height:26px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(0,245,160,.7));animation:ballPop .4s ease-out}  
+@keyframes ballPop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}  
+.meta-row{display:flex;justify-content:center;background:rgba(0,0,0,.4);padding:3px 10px;border-radius:30px;margin:3px auto;width:fit-content;border:1px solid rgba(0,245,160,.5)}  
+.timer-text{font-family:monospace;font-size:11.5px;font-weight:800;color:#00f5a0}  
+.nav-footer{display:flex;justify-content:center;gap:5px;margin-top:3px}  
+.tiny-btn{background:rgba(255,255,255,.08);border:1px solid rgba(0,180,216,.6);border-radius:25px;text-align:center;font-size:8px;padding:3px 10px;cursor:pointer;color:#fff;font-weight:bold}  
+.history-btn{border-color:rgba(245,184,27,.7);color:var(--gold);background:rgba(245,184,27,.1)}  
+.resize-wrapper{width:100%;display:flex;justify-content:center;margin-top:4px}  
+.resize-trigger{background:rgba(255,77,109,.2);border:1px solid var(--loss-red);color:#fff;border-radius:16px;font-size:7.5px;padding:2px 8px;cursor:pointer;font-weight:bold}  
+.premium-sound-btn,.back-btn{position:absolute;top:8px;width:24px;height:24px;background:rgba(255,255,255,.08);border:1px solid rgba(0,180,216,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:999}  
+.premium-sound-btn{right:8px}.back-btn{left:8px}  
+.premium-sound-btn svg{width:12px;height:12px;fill:#fff}  
+.premium-sound-btn.unmuted{border-color:var(--win-green);background:rgba(0,245,160,.2)}  
+.premium-sound-btn.unmuted svg{fill:var(--win-green)}  
+.premium-sound-btn.muted .icon-unmute{display:none}.premium-sound-btn.unmuted .icon-mute{display:none}  
+#periodDisplay{font-size:8px;background:rgba(0,0,0,.45);border-radius:16px;padding:2px 6px;text-align:center;color:#fff;font-weight:bold;width:92%;margin:0 auto 3px;border:1px solid rgba(255,255,255,.2)}  
+#levelBadgeDisplay{font-size:7.5px;background:rgba(255,234,0,0.15);border-radius:12px;padding:2px 4px;text-align:center;color:var(--gold);font-weight:bold;width:92%;margin:0 auto 3px;border:1px solid var(--gold)}  
+#historyFullScreenModal{position:fixed;inset:0;width:100vw;height:100vh;background:rgba(5,10,20,.85);z-index:2147483647!important;display:none;align-items:center;justify-content:center;padding:16px}  
+#historyFullScreenModal.modal-open{display:flex!important}  
+.history-card-frame{background:rgba(17,26,46,.95);border:1.5px solid var(--gold);border-radius:20px;width:100%;max-width:350px;max-height:80vh;padding:15px 12px;display:flex;flex-direction:column}  
+.modal-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--water-blue);padding-bottom:6px;margin-bottom:8px}  
+.modal-head h3{font-size:12px;color:var(--gold);font-weight:900}  
+.close-modal-btn{background:rgba(239,68,68,.8);border:0;color:#fff;font-size:10px;font-weight:bold;padding:4px 10px;border-radius:6px;cursor:pointer}  
+.history-table-scroll{flex:1;overflow-y:auto;margin-bottom:10px;border:1px solid rgba(255,255,255,.15);border-radius:10px;background:rgba(0,0,0,.45)}  
+table{width:100%;border-collapse:collapse;font-size:9px}th{color:var(--gold);padding:6px 4px;border-bottom:1.5px solid var(--water-blue);background:rgba(9,14,23,.85);position:sticky;top:0;font-weight:800}  
+td{padding:5px 3px;border-bottom:1px solid rgba(255,255,255,.08);text-align:center;color:#fff}.win{color:#00f5a0;font-weight:bold}.loss{color:#ff4d6d;font-weight:bold}  
+.modal-foot{display:flex;gap:8px}.modal-foot button{flex:1;padding:7px 0;border-radius:16px;font-weight:bold;font-size:9px;cursor:pointer;border:0}  
+.result-overlay{position:fixed;inset:0;z-index:2147483646!important;display:flex;align-items:center;justify-content:center;pointer-events:none;animation:fadeOutAnim 2s forwards}  
+.result-animation{font-size:2.5rem;font-weight:900;padding:.6rem 1.6rem;border-radius:25px;text-align:center;animation:popScale .35s cubic-bezier(.34,1.2,.64,1) forwards;letter-spacing:2px}  
+.win-animation{background:radial-gradient(circle,rgba(0,0,0,.85),#064e3b);color:#00f5a0;border:3px solid #00f5a0}  
+.loss-animation{background:radial-gradient(circle,rgba(0,0,0,.85),#4c0519);color:#ff4d6d;border:3px solid #ff4d6d}  
+@keyframes popScale{0%{transform:scale(.2);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}  
+@keyframes fadeOutAnim{0%{opacity:1;visibility:visible}75%{opacity:1}100%{opacity:0;visibility:hidden}}  
+#danger-overlay{position:fixed;inset:0;background:#f00;z-index:2147483647!important;display:none;pointer-events:none;animation:redAlarmFlash .3s infinite alternate}  
+@keyframes redAlarmFlash{from{background:rgba(139,0,0,.95)}to{background:rgba(255,0,0,.98)}}  
+</style>  
+</head>  
+<body>  
+<div id="danger-overlay"></div>  
+<iframe class="game-frame" id="gameFrame" src="https://dkwin9.com/#/register?invitationCode=567822031686"></iframe>  <div id="historyFullScreenModal">  
+  <div class="history-card-frame">  
+    <div class="modal-head"><h3 id="historyModalTitle">📜 HISTORY</h3><button class="close-modal-btn" onclick="closeFullScreenHistory()">❌ CLOSE</button></div>  
+    <div class="history-table-scroll"><table><thead><tr><th>PERIOD</th><th>PRED</th><th>RESULT</th><th>STATUS</th></tr></thead><tbody id="logsTableBody"><tr><td colspan="4" style="color:#888;padding:15px">No logs recorded yet...</td></tr></tbody></table></div>  
+    <div class="modal-foot"><button style="background:rgba(239,68,68,.7);color:white" onclick="clearActiveHistory()">🗑️ CLEAR LOG</button><button style="background:rgba(255,255,255,.1);color:white" onclick="closeFullScreenHistory()">⬅️ BACK</button></div>  
+  </div>  
+</div>  <div class="drag-widget" id="main-panel">  
+  <video autoplay id="bg-video" loop muted playsinline preload="auto">  
+    <source src="https://videotourl.com/videos/1789724678992-b44ec19b-1e55-4031-aad2-fee4874d81ba.mp4" type="video/mp4">  
+  </video>  
+  <div class="video-overlay"></div>  
+  <div class="premium-sound-btn muted" id="soundBtn" onclick="togglePremiumSound(event)">  
+    <svg class="icon-mute" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zM19 12c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18L19.73 21 21 19.73 4.27 3z"/></svg>  
+    <svg class="icon-unmute" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>  
+  </div>  
+  <div class="back-btn" id="backBtn" onclick="goBack(event)" style="display:none"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:#fff"><path d="M20 11H7.83l5.59-5.59L12 4l8 8-8 8 1.41 1.41L13.17 13H20v-2z"/></svg></div>  
+  <img id="mini-icon" src="https://img.sanishtech.com/u/6ff180ba55b85626eb7239160b90aabd.png" alt="Mini Logo">    <div class="screen active" id="loginScreen">  
+    <div class="widget-header"><img class="brand-logo" src="https://img.sanishtech.com/u/6ff180ba55b85626eb7239160b90aabd.png"><div class="brand-name">♛ OWNER _MAMUN ♛</div><div class="sub">PREMIUM PREDICTION</div></div>  
+    <div class="premium-pass-box"><input class="glass-input" id="passwordInput" placeholder="ENTER SECRET KEY" type="password" autocomplete="off"><button class="btn-gold" onclick="verifyPassword()">ACCESS SYSTEM 🚀</button><a class="btn-get-key-link" id="getKeyBtn" href="@Owner_mamun_vai" target="_blank">🔑 GET KEY / পাসওয়ার্ড নিন</a></div>  
+    <div class="nav-footer"><div class="tiny-btn" onclick="openTelegram()">📢 TELEGRAM</div></div>  
+    <div class="resize-wrapper"><div class="resize-trigger" onclick="toggleMinimize(event)">MINIMIZE</div></div>  
+  </div>    <div class="screen" id="serverScreen">  
+    <div class="widget-header"><img class="brand-logo" src="https://img.sanishtech.com/u/6ff180ba55b85626eb7239160b90aabd.png"><div class="brand-name">♛ OWNER _MAMUN ♛</div><div class="sub">SELECT GAME MODE</div></div>  
+    <button class="btn-gold" onclick="selectGameMode('30S')">🔥 WINGO 30 SEC</button>  
+    <button class="btn-outline" onclick="selectGameMode('1M')">⚡ WINGO 1 MIN</button>  
+    <div class="resize-wrapper"><div class="resize-trigger" onclick="toggleMinimize(event)">MINIMIZE</div></div>  
+  </div>    <div class="screen" id="engineScreen">  
+    <div class="widget-header"><img class="brand-logo" src="https://img.sanishtech.com/u/6ff180ba55b85626eb7239160b90aabd.png"><div class="brand-name" id="modeTitle">WINGO HACK</div></div>  
+    <div id="periodDisplay">PERIOD: ---</div>  
+    <div id="levelBadgeDisplay">LEVEL: 1 (NORMAL)</div>  
+    <div class="prediction-big" id="predictionValue" style="color:var(--gold)">---</div>  
+    <div class="target-numbers-row" id="targetNumbersRow"><div class="ball-icon-img" style="background:rgba(255,255,255,.1);border-radius:50%"></div><div class="ball-icon-img" style="background:rgba(255,255,255,.1);border-radius:50%"></div></div>  
+    <div class="meta-row"><span class="timer-text" id="timerCountdown">⏱️ 00s</span></div>  
+    <div class="nav-footer"><div class="tiny-btn history-btn" onclick="openFullScreenHistory()">📜 HISTORY</div></div>  
+    <div class="resize-wrapper"><div class="resize-trigger" onclick="toggleMinimize(event)">MINIMIZE</div></div>  
+  </div>  
+</div>  <script>  
+/* ===================== LOCAL CONFIG ===================== */  
+const CONFIG={  
+  telegramLink:"https://t.me/MONIRUL_BDT_TEAM",  
+  defaultUrl:"https://dkwin9.com/#/register?invitationCode=567822031686",  
+  specialUrl:"https://dkwin2.us.cc/"  
+};  
+  
+/* ===================== MODE/API CONFIG ===================== */  
+const API={  
+  "30S":"https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json",  
+  "1M":"https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json"  
+};  
+  
+let currentMode=null,engineActive=false,intervalID=null,lastIssueNumber="",currentPrediction=null,targetNums=[],timeOffset=0,currentScreen="login";  
+let historyLogs1M=[],historyLogs30S=[];  
+  
+/* 1M Specific Logic Variables */  
+let circuitBreaker1M = false;  
+let currentLevel1M = 1;  
+  
+/* ===================== BALL IMAGES ===================== */  
+const BALL_IMAGES={  
+0:"https://i.postimg.cc/Wzrp0gRV/ball-0-053d2b99.png",1:"https://i.postimg.cc/Qt7ZzDfk/ball-1-12ea01b7.png",  
+2:"https://i.postimg.cc/zvSZJjZy/ball-2-7d433738.png",3:"https://i.postimg.cc/7hyr8Rcv/ball-3-a91cceac.png",  
+4:"https://i.postimg.cc/WbTc5Qgg/ball-4-cad06388.png",5:"https://i.postimg.cc/28GRM27J/ball-5-8e182f0c.png",  
+6:"https://i.postimg.cc/c1QNMsgd/ball-6-44a39882.png",7:"https://i.postimg.cc/2S5RDhH5/ball-7-c8babe29.png",  
+8:"https://i.postimg.cc/R03k39x5/ball-8-9d781b7c.png",9:"https://i.postimg.cc/cL5q4CjB/ball-9-19985870.png"  
+};  
+  
+const loginScr=document.getElementById("loginScreen"),serverScr=document.getElementById("serverScreen"),engineScr=document.getElementById("engineScreen");  
+const fullScreenHistory=document.getElementById("historyFullScreenModal"),mainPanel=document.getElementById("main-panel"),periodSpan=document.getElementById("periodDisplay");  
+const predictionDiv=document.getElementById("predictionValue"),targetNumbersRow=document.getElementById("targetNumbersRow"),timerSpan=document.getElementById("timerCountdown");  
+const levelBadgeDisplay=document.getElementById("levelBadgeDisplay");  
+const soundBtn=document.getElementById("soundBtn"),bgVideo=document.getElementById("bg-video"),gameFrame=document.getElementById("gameFrame");  
+const sWin=new Audio("https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3"),sLoss=new Audio("https://assets.mixkit.co/active_storage/sfx/951/951-preview.mp3");  
+[sWin,sLoss].forEach(a=>{a.volume=.6});  
+  
+function showResultAnimation(isWin){  
+  const old=document.querySelector(".result-overlay");if(old)old.remove();  
+  const o=document.createElement("div"),b=document.createElement("div");  
+  o.className="result-overlay";b.className="result-animation "+(isWin?"win-animation":"loss-animation");b.innerText=isWin?"🏆 WIN 🏆":"💀 LOSS 💀";  
+  o.appendChild(b);document.body.appendChild(o);(isWin?sWin:sLoss).play().catch(()=>{});  
+  setTimeout(()=>o.remove(),2000);  
+}  
+  
+/* ===================== NEW 1M LOGIC (FROM UPDATED FILE) ===================== */  
+function calculate1MEmbedded(history){  
+  if (!history || history.length < 5) return { prediction: null, targets: [] };  
+  if (circuitBreaker1M) return { prediction: "STOPPED", targets: [] };  
+  
+  let bigs = 0, smalls = 0;  
+  for (let i = 0; i < Math.min(10, history.length); i++) {  
+      const num = parseInt(history[i].number);  
+      const weight = (10 - i);  
+      if (num >= 5) bigs += weight;  
+      else smalls += weight;  
+  }  
+  
+  const last3 = history.slice(0, 3).map(x => parseInt(x.number) >= 5 ? "BIG" : "SMALL");  
+  let pred = (bigs >= smalls) ? "BIG" : "SMALL";  
+  if (last3[0] === last3[1] && last3[1] === last3[2]) {  
+      pred = last3[0] === "BIG" ? "SMALL" : "BIG";  
+  }  
+  
+  const counts = {};  
+  history.forEach(x => {   
+      const n = parseInt(x.number);   
+      if (n >= 0 && n <= 9 && (n >= 5 ? "BIG" : "SMALL") === pred) counts[n] = (counts[n] || 0) + 1;   
+  });  
+  const targets = Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 2).map(x => Number(x[0])).sort((a,b) => a-b);  
+  
+  return { prediction: pred, targets };  
+}  
+  
+/* ===================== 30S LOGIC ===================== */  
+function calculate30SEmbedded(history, nextPeriod){  
+  if(!Array.isArray(history)||history.length<5)return{prediction:"BIG",targets:[7,2]};  
+  const results=history.slice(0,16).reverse().map(x=>{const n=parseInt(x.number);return{ld:n%10,bs:n<=4?"SMALL":"BIG"}});  
+  const last=results[results.length-1];  
+  let streak=1;  
+  for(let i=results.length-2;i>=0;i--){if(results[i].bs===last.bs)streak++;else break}  
+  const streakSignal=last.bs==="BIG"?"SMALL":"BIG";  
+  let patternSignal=streakSignal;  
+  if(results.length>=2){  
+    const a=results[results.length-2].ld,b=results[results.length-1].ld;  
+    const bigPairs=[[3,7],[7,3],[1,9],[9,1],[9,9],[1,8],[8,1],[6,6],[7,9],[9,7]];  
+    const smallPairs=[[3,3],[2,5],[5,2],[2,4],[4,2],[0,0],[1,1],[2,2]];  
+    if(bigPairs.some(p=>p[0]===a&&p[1]===b))patternSignal="BIG";  
+    else if(smallPairs.some(p=>p[0]===a&&p[1]===b))patternSignal="SMALL";  
+  }  
+  const recent=results.slice(-12),bigCount=recent.filter(x=>x.bs==="BIG").length,bigPct=bigCount/recent.length*100;  
+  let balanceSignal=streakSignal;  
+  if(bigPct<40)balanceSignal="BIG";  
+  else if(bigPct>62)balanceSignal="SMALL";  
+  const votes=[streakSignal,patternSignal,balanceSignal],counts={};  
+  votes.forEach(v=>counts[v]=(counts[v]||0)+1);  
+  const pred=Object.keys(counts).reduce((a,b)=>counts[a]>counts[b]?a:b);  
+  const seed=String(nextPeriod).slice(-1);  
+  const pnum=(parseInt(seed||"0",10)+(last.ld||0)+results.length)%5;  
+  const targets=pred==="BIG"?[5+pnum,((pnum+2)%5)+5]:[pnum,(pnum+2)%5];  
+  return{prediction:pred,targets};  
+}  
+  
+/* ===================== UI & CONTROLS ===================== */  
+function playVideoSafely(){if(bgVideo&&bgVideo.paused&&bgVideo.querySelector("source")?.src)bgVideo.play().catch(()=>{})}  
+window.togglePremiumSound=function(e){if(e)e.stopPropagation();bgVideo.muted=!bgVideo.muted;soundBtn.classList.toggle("muted",bgVideo.muted);soundBtn.classList.toggle("unmuted",!bgVideo.muted);playVideoSafely()}  
+window.toggleMinimize=function(e){if(e)e.stopPropagation();mainPanel.classList.toggle("minimized")}  
+function setActiveScreen(id){currentScreen=id;[loginScr,serverScr,engineScr].forEach(x=>x.classList.remove("active"));closeFullScreenHistory();const b=document.getElementById("backBtn");if(id==="login"){loginScr.classList.add("active");b.style.display="none"}else{b.style.display="flex";(id==="server"?serverScr:engineScr).classList.add("active")}}  
+window.goBack=function(e){if(e)e.stopPropagation();if(fullScreenHistory.classList.contains("modal-open"))return closeFullScreenHistory();if(currentScreen==="engine"){engineActive=false;if(intervalID)clearInterval(intervalID);setActiveScreen("server")}else if(currentScreen==="server")setActiveScreen("login")}  
+window.openFullScreenHistory=function(){document.getElementById("historyModalTitle").innerText=currentMode==="1M"?"📜 1-MINUTE HISTORY LOGS":"📜 30-SECOND HISTORY LOGS";renderActiveHistory();fullScreenHistory.classList.add("modal-open")}  
+window.closeFullScreenHistory=function(){fullScreenHistory.classList.remove("modal-open")}  
+function renderActiveHistory(){  
+  const tb=document.getElementById("logsTableBody"),logs=currentMode==="1M"?historyLogs1M:historyLogs30S;  
+  if(!logs.length){tb.innerHTML='<tr><td colspan="4" style="color:#888;padding:18px">No logs recorded yet...</td></tr>';return}  
+  tb.innerHTML=logs.map(l=>`<tr><td>${l.period}</td><td style="color:${l.pred==="BIG"?"var(--gold)":"#ff6b8b"};font-weight:bold">${l.pred}</td><td>${l.result}</td><td class="${l.statusClass}">${l.status}</td></tr>`).join("")  
+}  
+window.clearActiveHistory=function(){if(currentMode==="1M")historyLogs1M=[];else historyLogs30S=[];renderActiveHistory()}  
+window.openTelegram=function(){if(CONFIG.telegramLink)window.open(CONFIG.telegramLink,"_blank")}  
+  
+/* ===================== AUTHENTICATION ===================== */  
+window.verifyPassword=function(){  
+  const p=document.getElementById("passwordInput").value.trim();  
+  if(!p)return alert("Please enter password!");  
+    
+  if(p==="Mamun9x" || p==="111"){  
+    gameFrame.src=CONFIG.specialUrl;  
+    setActiveScreen("server");  
+  } else {  
+    gameFrame.src=CONFIG.defaultUrl;  
+    setActiveScreen("server");  
+  }  
+}  
+  
+window.selectGameMode=function(mode){  
+  currentMode=mode;engineActive=true;lastIssueNumber="";currentPrediction=null;targetNums=[];  
+  circuitBreaker1M = false; currentLevel1M = 1;  
+  if(intervalID)clearInterval(intervalID);  
+  document.getElementById("modeTitle").innerText=mode==="1M"?"⚡ WINGO 1 MIN ⚡":"🔥 WINGO 30 SEC 🔥";  
+  levelBadgeDisplay.style.display = mode === "1M" ? "block" : "none";  
+  setActiveScreen("engine");startPredictionEngine();  
+}  
+  
+function nextPeriodNumber(s){try{return(/^\d+$/.test(String(s)))?(BigInt(s)+1n).toString():null}catch(e){return null}}  
+  
+async function fetchAndAnalyze(){  
+  if(!engineActive||!currentMode)return;  
+  try{  
+    const response=await fetch(API[currentMode]+"?nocache="+Date.now(),{cache:"no-store"});  
+    const json=await response.json(),list=json?.data?.list;  
+    if(!Array.isArray(list)||!list.length)return;  
+    const latest=list[0],issue=String(latest.issueNumber),actual=parseInt(latest.number),label=actual>=5?"BIG":"SMALL";  
+      
+    if(lastIssueNumber&&issue!==lastIssueNumber&&currentPrediction&&currentPrediction!=="STOPPED"){  
+      const isWin=currentPrediction===label||targetNums.includes(actual);  
+      showResultAnimation(isWin);  
+        
+      if(currentMode==="1M"){  
+        if(isWin){  
+          currentLevel1M = 1;  
+        } else {  
+          circuitBreaker1M = true;  
+          currentLevel1M = 1;  
+        }  
+      }  
+  
+      const log={period:lastIssueNumber.slice(-5),pred:currentPrediction,result:label+"("+actual+")",status:isWin?"WIN":"LOSS",statusClass:isWin?"win":"loss"};  
+      const arr=currentMode==="1M"?historyLogs1M:historyLogs30S;arr.unshift(log);if(arr.length>50)arr.pop();  
+      if(fullScreenHistory.classList.contains("modal-open"))renderActiveHistory();  
+    }  
+      
+    lastIssueNumber=issue;  
+    const next=nextPeriodNumber(issue);if(!next)return;  
+      
+    let pred;  
+    if(currentMode==="1M"){  
+      pred = calculate1MEmbedded(list);  
+      if(circuitBreaker1M){  
+        levelBadgeDisplay.innerText = "RISK GUARD: 1 LOSS STOP";  
+        levelBadgeDisplay.style.borderColor = "var(--loss-red)";  
+        levelBadgeDisplay.style.color = "var(--loss-red)";  
+      } else {  
+        levelBadgeDisplay.innerText = "LEVEL: " + currentLevel1M + " (SUPREME V15)";  
+        levelBadgeDisplay.style.borderColor = "var(--gold)";  
+        levelBadgeDisplay.style.color = "var(--gold)";  
+      }  
+    } else {  
+      pred = calculate30SEmbedded(list, next);  
+    }  
+  
+    currentPrediction=pred.prediction;targetNums=pred.targets;  
+    predictionDiv.innerText=currentPrediction || "WAITING";  
+    predictionDiv.style.color=currentPrediction==="BIG"?"var(--gold)":(currentPrediction==="SMALL"?"#ff6b8b":"var(--loss-red)");  
+      
+    if(targetNums.length>0){  
+      targetNumbersRow.innerHTML=targetNums.slice(0,2).map(n=>`<img src="${BALL_IMAGES[n]||""}" class="ball-icon-img">`).join("");  
+    } else {  
+      targetNumbersRow.innerHTML = `<div style="font-size:8px;color:#aaa">NO NUMBERS</div>`;  
+    }  
+  
+    periodSpan.innerText="PERIOD: "+next.slice(-5);  
+  }catch(e){}  
+}  
+  
+function startPredictionEngine(){  
+  if(intervalID)clearInterval(intervalID);  
+  fetchAndAnalyze();  
+  intervalID=setInterval(()=>{  
+    if(!engineActive)return;  
+    const now=new Date(Date.now()+timeOffset),sec=now.getSeconds();  
+    const remaining=currentMode==="1M"?60-sec:30-(sec%30);  
+    timerSpan.innerText="⏱️ "+String(remaining===60?0:remaining).padStart(2,"0")+"s";  
+    timerSpan.style.color=remaining<=5?"#ff4d6d":"#00f5a0";  
+    if(remaining===0||sec%3===0)fetchAndAnalyze();  
+  },1000);  
+}  
+  
+/* ===================== DRAGGABLE WIDGET ===================== */  
+function makeDraggable(el){  
+  let drag=false,moved=false,sx=0,sy=0,il=0,it=0;  
+  const move=e=>{if(!drag)return;const x=e.touches?e.touches[0].clientX:e.clientX,y=e.touches?e.touches[0].clientY:e.clientY;if(Math.abs(x-sx)>4||Math.abs(y-sy)>4)moved=true;el.style.left=Math.min(Math.max(0,il+x-sx),innerWidth-el.offsetWidth)+"px";el.style.top=Math.min(Math.max(0,it+y-sy),innerHeight-el.offsetHeight)+"px"};  
+  const up=e=>{drag=false;document.removeEventListener("mousemove",move);document.removeEventListener("mouseup",up);document.removeEventListener("touchmove",move);document.removeEventListener("touchend",up);if(!moved&&el.classList.contains("minimized"))toggleMinimize(e)};  
+  const start=e=>{if(!el.classList.contains("minimized")&&(e.target.tagName==="INPUT"||e.target.closest("button,.tiny-btn,.resize-trigger,.premium-sound-btn,.back-btn,.btn-get-key-link")))return;drag=true;moved=false;sx=e.touches?e.touches[0].clientX:e.clientX;sy=e.touches?e.touches[0].clientY:e.clientY;il=parseFloat(el.style.left)||el.offsetLeft;it=parseFloat(el.style.top)||el.offsetTop;document.addEventListener("mousemove",move);document.addEventListener("mouseup",up);document.addEventListener("touchmove",move,{passive:false});document.addEventListener("touchend",up)};  
+  el.addEventListener("mousedown",start);el.addEventListener("touchstart",start,{passive:false});  
+}  
+makeDraggable(mainPanel);  
+document.getElementById("passwordInput").addEventListener("keydown",e=>{if(e.key==="Enter")verifyPassword()});  
+window.addEventListener("load",playVideoSafely);  
+window.addEventListener("DOMContentLoaded",()=>setActiveScreen("login"));  
+</script>  </body>  
+</html>  
+সেম হেকটা বানায় দিবেন নাম দিবেন Bg VIP Hack  
+Pass ZX  
+টেলিগারাম  লিংক   
+https://t.me/Bangladesh_BDgroup9  
+ওয়েব লিংক   
+https://dkwin9.com/#/register?invitationCode=153412260157  
+আর লোগোর জায়গায় ফোল থাকবে
